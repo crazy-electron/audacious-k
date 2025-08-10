@@ -121,9 +121,7 @@ static gboolean infopopup_draw_bg (GtkWidget * widget)
 {
     cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (widget));
 #endif
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     auto & c = (gtk_widget_get_style (widget))->base[GTK_STATE_NORMAL];
-G_GNUC_END_IGNORE_DEPRECATIONS
 
     GtkAllocation alloc;
     gtk_widget_get_allocation (widget, & alloc);

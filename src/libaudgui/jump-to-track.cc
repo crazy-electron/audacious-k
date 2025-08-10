@@ -133,13 +133,13 @@ static void selection_changed ()
 
 static gboolean keypress_cb (GtkWidget * widget, GdkEventKey * event)
 {
-    if (event->keyval == GDK_KEY_Escape)
+    if (event->keyval == GDK_Escape)
     {
         audgui_jump_to_track_hide ();
         return true;
     }
 
-    if (event->keyval == GDK_KEY_Return && (event->state & GDK_SHIFT_MASK))
+    if (event->keyval == GDK_Return && (event->state & GDK_SHIFT_MASK))
     {
         /* Let Shift+Enter act as another shortcut for the Queue button */
         gtk_widget_activate (queue_button);

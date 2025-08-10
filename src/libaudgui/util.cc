@@ -154,7 +154,7 @@ EXPORT void audgui_get_monitor_geometry (GdkScreen * screen, int x, int y, GdkRe
 
 static gboolean escape_destroy_cb (GtkWidget * widget, GdkEventKey * event)
 {
-    if (event->keyval == GDK_KEY_Escape)
+    if (event->keyval == GDK_Escape)
     {
         gtk_widget_destroy (widget);
         return true;
@@ -294,7 +294,8 @@ EXPORT GtkWidget * audgui_dialog_new (GtkMessageType type, const char * title,
     gtk_window_set_role ((GtkWindow *) dialog, "message");
 
     bool label_selectable = (type != GTK_MESSAGE_OTHER);
-    GtkWidget * box = gtk_message_dialog_get_message_area ((GtkMessageDialog *) dialog);
+    GtkBox *vbox = GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog)));
+    GtkWidget * box = gtk_bin_get_child(GTK_BIN(vbox));    
     gtk_container_foreach ((GtkContainer *) box, set_label_properties,
      GINT_TO_POINTER (label_selectable));
 
@@ -326,7 +327,8 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
 EXPORT void audgui_dialog_add_widget (GtkWidget * dialog, GtkWidget * widget)
 {
-    GtkWidget * box = gtk_message_dialog_get_message_area ((GtkMessageDialog *) dialog);
+    GtkBox *vbox = GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog)));
+    GtkWidget * box = gtk_bin_get_child(GTK_BIN(vbox));      
     gtk_box_pack_start ((GtkBox *) box, widget, false, false, 0);
 }
 

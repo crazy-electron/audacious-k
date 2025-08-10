@@ -460,7 +460,8 @@ static gboolean drag_motion (GtkWidget * widget, GdkDragContext * context,
     gtk_tree_view_convert_widget_to_bin_window_coords ((GtkTreeView *) widget,
      x, y, & x, & y);
 
-    int height = gdk_window_get_height (gtk_tree_view_get_bin_window ((GtkTreeView *) widget));
+    int _width, height, _x, _y, _depth;
+    gdk_window_get_geometry(gtk_tree_view_get_bin_window ((GtkTreeView *) widget), &_x, &_y, &_width, &height, &_depth);
     int hotspot = aud::min (height / 4, audgui_get_dpi () / 2);
 
     if (y >= 0 && y < hotspot)
@@ -892,8 +893,10 @@ EXPORT int audgui_list_row_at_point_rounded (GtkWidget * list, int x, int y)
 
     /* bound the mouse cursor within the bin window to get the nearest row */
     GdkWindow * bin = gtk_tree_view_get_bin_window ((GtkTreeView *) list);
-    x = aud::clamp (x, 0, gdk_window_get_width (bin) - 1);
-    y = aud::clamp (y, 0, gdk_window_get_height (bin) - 1);
+    int width, height, _x, _y, _depth;
+    gdk_window_get_geometry(bin, &_x, &_y, &width, &height, &_depth);
+    x = aud::clamp (x, 0, width - 1);
+    y = aud::clamp (y, 0, height - 1);
 
     GtkTreePath * path = nullptr;
     gtk_tree_view_get_path_at_pos ((GtkTreeView *) list, x, y, & path, nullptr, nullptr, nullptr);

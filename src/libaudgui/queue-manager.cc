@@ -155,11 +155,11 @@ static void destroy_cb ()
 
 static gboolean keypress_cb (GtkWidget * widget, GdkEventKey * event)
 {
-    if (event->keyval == GDK_KEY_A && (event->state & GDK_CONTROL_MASK))
+    if (event->keyval == GDK_A && (event->state & GDK_CONTROL_MASK))
         select_all (nullptr, true);
-    else if (event->keyval == GDK_KEY_Delete)
+    else if (event->keyval == GDK_Delete)
         remove_selected (nullptr);
-    else if (event->keyval == GDK_KEY_Escape)
+    else if (event->keyval == GDK_Escape)
         gtk_widget_destroy (widget);
     else
         return false;

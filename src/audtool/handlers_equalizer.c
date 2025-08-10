@@ -84,11 +84,15 @@ void equalizer_set_eq (int argc, char * * argv)
     double preamp = atof (argv[1]);
     double bands[NUM_BANDS];
 
-    for (int i = 0; i < NUM_BANDS; i ++)
+    GVariantBuilder builder;
+    g_variant_builder_init(&builder, G_VARIANT_TYPE ("ad"));
+    
+    for (int i = 0; i < NUM_BANDS; i ++) {
         bands[i] = atof (argv[i + 2]);
+        g_variant_builder_add(&builder, "d", bands[i]);
+    }     
 
-    GVariant * var = g_variant_new_fixed_array (G_VARIANT_TYPE_DOUBLE, bands,
-     NUM_BANDS, sizeof (double));
+    GVariant * var = g_variant_builder_end(&builder);
     obj_audacious_call_set_eq_sync (dbus_proxy, preamp, var, NULL, NULL);
 }
 

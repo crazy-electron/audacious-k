@@ -267,8 +267,13 @@ static void genre_fill (GtkWidget * combo)
 
     list.sort (g_utf8_collate);
 
+    GtkTreeModel *model = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
     for (auto genre : list)
-        gtk_combo_box_text_append_text ((GtkComboBoxText *) combo, genre);
+    {
+        GtkTreeIter iter;
+        gtk_list_store_append(GTK_LIST_STORE(model), &iter);
+        gtk_list_store_set(GTK_LIST_STORE(model), &iter, 0, genre, -1);
+    }    
 }
 
 static void autofill_toggled (GtkToggleButton * toggle)
@@ -413,7 +418,9 @@ static void create_infowin ()
     widgets.comment = gtk_entry_new ();
     add_entry (grid, _("Comment"), widgets.comment, 0, 8, 2);
 
-    widgets.genre = gtk_combo_box_text_new_with_entry ();
+    GtkListStore *store = gtk_list_store_new(1, G_TYPE_STRING);
+    widgets.genre = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+    g_object_unref(store);
     genre_fill (widgets.genre);
     add_entry (grid, _("Genre"), widgets.genre, 0, 10, 2);
 

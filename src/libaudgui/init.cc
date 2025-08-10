@@ -31,7 +31,7 @@
 #include "libaudgui-gtk.h"
 
 extern "C" {
-#include "images.h"
+// #include "images.h"
 }
 
 static const char * const audgui_defaults[] = {
@@ -182,14 +182,12 @@ static int get_icon_size (GtkIconSize size)
 static void load_fallback_icon (const char * icon, int size)
 {
     StringBuf resource = str_concat ({"/org/audacious/", icon, ".svg"});
-    auto pixbuf = gdk_pixbuf_new_from_resource_at_scale (resource, size, size, true, nullptr);
+    auto pixbuf = gdk_pixbuf_new_from_file_at_scale(resource, size, size, TRUE, nullptr);
 
     if (pixbuf)
     {
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
         gtk_icon_theme_add_builtin_icon (icon, size, pixbuf);
         g_object_unref (pixbuf);
-G_GNUC_END_IGNORE_DEPRECATIONS
     }
 }
 
@@ -298,7 +296,7 @@ static void load_fallback_icons ()
         "preferences-system"
     };
 
-    g_resources_register (images_get_resource ());
+    // g_resources_register (images_get_resource ());
 
 #ifdef _WIN32
     adjust_icon_sizes ();
